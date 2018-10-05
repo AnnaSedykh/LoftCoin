@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+
+    <color name="primary">#191A29</color>
+    <color name="primary_dark">#101019</color>
+    <color name="primary_light">#C5CAE9</color>
+    <color name="accent">#66688F</color>
+
+    <color name="primary_text_color">#FFFFFF</color>
+    <color name="secondary_text_color">#9A9CB5</color>
+    <color name="secondary_text_color_dark">#66688F</color>
+
+    <color name="green">#3DE77B</color>
+    <color name="red">#FF4464</color>
+
+    <color name="gradient_start">#F6CA1D</color>
+    <color name="gradient_end">#FF4465</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="white60">#99FFFFFF</color>
+
+    <color name="rate_item_background_even">#212237</color>
+    <color name="rate_item_background_odd">@color/primary</color>
+
+    <color name="percent_change_up">@color/green</color>
+    <color name="percent_change_down">@color/red</color>
+
+    <color name="transaction_income">@color/green</color>
+    <color name="transaction_expense">@color/red</color>
+
+
+    <color name="wallet_card_background">#2E2F47</color>
+
+    <color name="gray_5">#9C9EB9</color>
+    <color name="gray_10">#66688F</color>
+    <color name="gray_20">#51526B</color>
+    <color name="gray_40">#3F415D</color>
+    <color name="gray_50">#313249</color>
+    <color name="gray_60">#2E2F47</color>
+    <color name="gray_80">#191A2A</color>
+    <color name="gray_100">#10101A</color>
+
 </resources>
