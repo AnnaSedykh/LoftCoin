@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.start.StartActivity">
+
+    <ImageView
+        android:id="@+id/start_top_corner"
+        android:layout_width="242dp"
+        android:layout_height="206dp"
+        android:translationX="-120dp"
+        android:background="@drawable/image_start_top_corner"/>
+
+    <ImageView
+        android:id="@+id/start_icon_shadow"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:background="@drawable/bg_start_icon_shadow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/start_icon"
+        android:layout_width="102dp"
+        android:layout_height="102dp"
+        android:background="@drawable/bg_start_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/start_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/primary_text_color"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_icon_shadow" />
+
+    <ImageView
+        android:id="@+id/start_bottom_corner"
+        android:layout_width="425dp"
+        android:layout_height="425dp"
+        android:background="@drawable/image_start_bottom_corner"
+        android:translationX="180dp"
+        android:translationY="220dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
