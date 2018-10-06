@@ -21,6 +21,7 @@
 
     <color name="white">#FFFFFFFF</color>
     <color name="white60">#99FFFFFF</color>
+    <color name="white30">#4DFFFFFF</color>
 
     <color name="rate_item_background_even">#212237</color>
     <color name="rate_item_background_odd">@color/primary</color>

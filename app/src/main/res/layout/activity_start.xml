@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/start_top_corner"
-        android:layout_width="202dp"
-        android:layout_height="166dp"
-        android:translationX="-101dp"
+        android:layout_width="242dp"
+        android:layout_height="206dp"
+        android:translationX="-120dp"
         android:background="@drawable/image_start_top_corner"/>
 
     <ImageView
@@ -47,11 +47,11 @@
 
     <ImageView
         android:id="@+id/start_bottom_corner"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="425dp"
+        android:layout_height="425dp"
         android:background="@drawable/image_start_bottom_corner"
-        android:translationX="130dp"
-        android:translationY="150dp"
+        android:translationX="180dp"
+        android:translationY="220dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
