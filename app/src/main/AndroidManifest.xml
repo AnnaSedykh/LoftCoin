@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.annasedykh.loftcoin">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -19,8 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screens.welcome.WelcomeActivity"/>
-        <activity android:name=".screens.start.StartActivity"/>
+        <activity android:name=".screens.welcome.WelcomeActivity" />
+        <activity android:name=".screens.start.StartActivity" />
+        <activity android:name=".screens.main.MainActivity"></activity>
     </application>
 
 </manifest>
