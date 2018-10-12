@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LoftCoin</string>
+    <string name="rate_item_percent_change">%.2f%%</string>
+    <string name="currency_amount">%s %s</string>
+
+</resources>
