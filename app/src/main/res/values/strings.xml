@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">LoftCoin</string>
 
     <string name="welcome_title_1">Покупка и продажа</string>
     <string name="welcome_title_2">Курс криптовалют</string>
@@ -8,5 +7,11 @@
     <string name="welcome_subtitle_2">Следи за курсом валют и вовремя реагируй на изменения динамики цены.</string>
     <string name="welcome_subtitle_3">Узнай сколько эфира в 1.23 биткоина.</string>
     <string name="welcome_start_btn">Начать</string>
+
+    <string name="main_bottom_navigation_item_accounts">Кошельки</string>
+    <string name="main_bottom_navigation_item_rate">Курс</string>
+    <string name="main_bottom_navigation_item_converter">Конвертер</string>
+
+    <string name="rate_screen_title">Курс криптовалют</string>
 
 </resources>

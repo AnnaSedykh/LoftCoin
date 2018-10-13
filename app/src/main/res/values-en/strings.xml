@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">LoftCoin</string>
 
     <string name="welcome_title_1">Buying and selling</string>
     <string name="welcome_title_2">Cryptocurrency rate</string>
@@ -8,4 +7,11 @@
     <string name="welcome_subtitle_2">Follow the exchange rate and react to changes in price dynamics in time.</string>
     <string name="welcome_subtitle_3">Find out how much ethereum in 1.23 bitcoins.</string>
     <string name="welcome_start_btn">Start</string>
+
+    <string name="main_bottom_navigation_item_accounts">Wallets</string>
+    <string name="main_bottom_navigation_item_rate">Rate</string>
+    <string name="main_bottom_navigation_item_converter">Converter</string>
+
+    <string name="rate_screen_title">Cryptocurrencies rate</string>
+
 </resources>
