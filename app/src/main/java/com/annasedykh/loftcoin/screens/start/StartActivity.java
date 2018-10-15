@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import com.annasedykh.loftcoin.App;
 import com.annasedykh.loftcoin.R;
 import com.annasedykh.loftcoin.data.api.Api;
+import com.annasedykh.loftcoin.data.db.Database;
+import com.annasedykh.loftcoin.data.db.model.CoinEntityMapper;
 import com.annasedykh.loftcoin.data.prefs.Prefs;
 import com.annasedykh.loftcoin.screens.main.MainActivity;
 
@@ -35,8 +37,6 @@ public class StartActivity extends AppCompatActivity implements StartView {
 
 
     private StartPresenter presenter;
-    private Api api;
-    private Prefs prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +44,12 @@ public class StartActivity extends AppCompatActivity implements StartView {
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
 
-        api = ((App) getApplication()).getApi();
-        prefs = ((App) getApplication()).getPrefs();
+        Api api = ((App) getApplication()).getApi();
+        Prefs prefs = ((App) getApplication()).getPrefs();
+        Database database = ((App) getApplication()).getDatabase();
+        CoinEntityMapper entityMapper = new CoinEntityMapper();
 
-        presenter = new StartPresenterImpl(api, prefs);
+        presenter = new StartPresenterImpl(api, prefs, database, entityMapper);
         presenter.attachView(this);
         presenter.loadRate();
     }
