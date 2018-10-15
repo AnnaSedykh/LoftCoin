@@ -1,0 +1,135 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "0065d7ea5b257d8ab5a04e9558895d79",
+    "entities": [
+      {
+        "tableName": "Coin",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `symbol` TEXT, `slug` TEXT, `rank` INTEGER NOT NULL, `updated` INTEGER NOT NULL, `usd_price` REAL, `usd_percentChange1h` REAL, `usd_percentChange24h` REAL, `usd_percentChange7d` REAL, `rub_price` REAL, `rub_percentChange1h` REAL, `rub_percentChange24h` REAL, `rub_percentChange7d` REAL, `eur_price` REAL, `eur_percentChange1h` REAL, `eur_percentChange24h` REAL, `eur_percentChange7d` REAL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "symbol",
+            "columnName": "symbol",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "slug",
+            "columnName": "slug",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rank",
+            "columnName": "rank",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updated",
+            "columnName": "updated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usd.price",
+            "columnName": "usd_price",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "usd.percentChange1h",
+            "columnName": "usd_percentChange1h",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "usd.percentChange24h",
+            "columnName": "usd_percentChange24h",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "usd.percentChange7d",
+            "columnName": "usd_percentChange7d",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rub.price",
+            "columnName": "rub_price",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rub.percentChange1h",
+            "columnName": "rub_percentChange1h",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rub.percentChange24h",
+            "columnName": "rub_percentChange24h",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rub.percentChange7d",
+            "columnName": "rub_percentChange7d",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eur.price",
+            "columnName": "eur_price",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eur.percentChange1h",
+            "columnName": "eur_percentChange1h",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eur.percentChange24h",
+            "columnName": "eur_percentChange24h",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eur.percentChange7d",
+            "columnName": "eur_percentChange7d",
+            "affinity": "REAL",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0065d7ea5b257d8ab5a04e9558895d79\")"
+    ]
+  }
+}
