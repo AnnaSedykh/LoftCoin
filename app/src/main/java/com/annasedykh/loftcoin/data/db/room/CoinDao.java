@@ -9,6 +9,8 @@ import com.annasedykh.loftcoin.data.db.model.CoinEntity;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface CoinDao {
 
@@ -16,5 +18,5 @@ public interface CoinDao {
     void saveCoins(List<CoinEntity> coins);
 
     @Query("SELECT * FROM Coin")
-    List<CoinEntity> getCoins();
+    Flowable<List<CoinEntity>> getCoins();
 }
