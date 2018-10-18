@@ -1,11 +1,10 @@
 package com.annasedykh.loftcoin.screens.main.rate;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.annasedykh.loftcoin.data.api.Api;
 import com.annasedykh.loftcoin.data.api.model.Coin;
-import com.annasedykh.loftcoin.data.api.model.RateResponse;
 import com.annasedykh.loftcoin.data.db.Database;
 import com.annasedykh.loftcoin.data.db.model.CoinEntity;
 import com.annasedykh.loftcoin.data.db.model.CoinEntityMapper;
@@ -13,11 +12,14 @@ import com.annasedykh.loftcoin.data.prefs.Prefs;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 class RatePresenterImpl implements RatePresenter {
+
+    private static final String TAG = "RatePresenterImpl";
 
     @Nullable
     private RateView view;
@@ -26,6 +28,8 @@ class RatePresenterImpl implements RatePresenter {
     private Prefs prefs;
     private Database database;
     private CoinEntityMapper mapper;
+
+    private CompositeDisposable disposables = new CompositeDisposable();
 
 
     RatePresenterImpl(Api api, Prefs prefs, Database database, CoinEntityMapper mapper) {
@@ -42,16 +46,24 @@ class RatePresenterImpl implements RatePresenter {
 
     @Override
     public void detachView() {
+        disposables.dispose();
         this.view = null;
     }
 
     //Get data from DB
     @Override
     public void getRate() {
-        List<CoinEntity> coins = database.getCoins();
-        if (view != null) {
-            view.setCoins(coins);
-        }
+        Disposable disposable = database.getCoins()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(coinEntities -> {
+                            if (view != null) {
+                                view.setCoins(coinEntities);
+                            }
+                        },
+                        throwable -> Log.e(TAG, "getRate: ", throwable));
+
+
+        disposables.add(disposable);
     }
 
     @Override
@@ -61,29 +73,30 @@ class RatePresenterImpl implements RatePresenter {
 
     //Load data via API
     private void loadRate() {
-        api.ticker("structure", prefs.getFiatCurrency().name()).enqueue(new Callback<RateResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<RateResponse> call, @NonNull Response<RateResponse> response) {
-                if (response.body() != null) {
-                    List<Coin> coins = response.body().data;
+
+        Disposable disposable = api.ticker("structure", prefs.getFiatCurrency().name())
+                .subscribeOn(Schedulers.io())
+                .map(rateResponse -> {
+                    List<Coin> coins = rateResponse.data;
                     List<CoinEntity> entities = mapper.mapCoins(coins);
                     database.saveCoins(entities);
-                    if (view != null) {
-                        view.setCoins(entities);
-                    }
-                }
-                if (view != null) {
-                    view.setRefreshing(false);
-                }
-            }
+                    return entities;
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        entities -> {
+                            if (view != null) {
+                                view.setRefreshing(false);
+                            }
+                        },
+                        throwable -> {
+                            Log.e(TAG, "loadRate: ", throwable);
+                            if (view != null) {
+                                view.setRefreshing(false);
+                            }
+                        });
 
-            @Override
-            public void onFailure(@NonNull Call<RateResponse> call, @NonNull Throwable t) {
-                if (view != null) {
-                    view.setRefreshing(false);
-                }
-            }
-        });
+        disposables.add(disposable);
     }
 
 }
