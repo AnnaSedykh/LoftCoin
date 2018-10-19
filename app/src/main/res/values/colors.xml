@@ -44,4 +44,6 @@
     <color name="gray_80">#191A2A</color>
     <color name="gray_100">#10101A</color>
 
+    <color name="transparent_gray_80">#e1191a2a</color>
+
 </resources>

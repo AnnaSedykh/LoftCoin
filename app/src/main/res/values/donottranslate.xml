@@ -5,4 +5,13 @@
     <string name="rate_item_percent_change">%.2f%%</string>
     <string name="currency_amount">%s %s</string>
 
+    <string name="rate_menu_usd_text">Dollar | USD</string>
+    <string name="usd_symbol">$</string>
+
+    <string name="rate_menu_eur_text">Euro | EUR</string>
+    <string name="eur_symbol">€</string>
+
+    <string name="rate_menu_rub_text">Ruble | RUB</string>
+    <string name="rub_symbol">₽</string>
+
 </resources>

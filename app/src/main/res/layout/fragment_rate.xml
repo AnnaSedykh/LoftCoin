@@ -30,5 +30,19 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
+        <FrameLayout
+            android:id="@+id/progress"
+            android:visibility="gone"
+            android:background="@color/transparent_gray_80"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
     </FrameLayout>
 </LinearLayout>

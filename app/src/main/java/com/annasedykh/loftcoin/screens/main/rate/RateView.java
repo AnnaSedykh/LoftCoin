@@ -11,4 +11,8 @@ public interface RateView {
     void setRefreshing(boolean refreshing);
 
     void showCurrencyDialog();
+
+    void showProgress();
+
+    void hideProgress();
 }
