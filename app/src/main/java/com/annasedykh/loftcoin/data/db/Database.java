@@ -11,4 +11,6 @@ public interface Database {
     void saveCoins(List<CoinEntity> coins);
 
     Flowable<List<CoinEntity>> getCoins();
+
+    CoinEntity getCoin(String symbol);
 }

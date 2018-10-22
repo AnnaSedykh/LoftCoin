@@ -24,4 +24,9 @@ public class DatabaseRoomImpl implements Database {
     public Flowable<List<CoinEntity>> getCoins() {
         return database.coinDao().getCoins();
     }
+
+    @Override
+    public CoinEntity getCoin(String symbol) {
+        return database.coinDao().getCoin(symbol);
+    }
 }
