@@ -18,7 +18,10 @@ import android.widget.TextView;
 import com.annasedykh.loftcoin.App;
 import com.annasedykh.loftcoin.R;
 import com.annasedykh.loftcoin.data.db.Database;
+import com.annasedykh.loftcoin.data.db.model.CoinEntity;
 import com.annasedykh.loftcoin.data.model.Currency;
+import com.annasedykh.loftcoin.screens.currencies.CurrenciesBottomSheet;
+import com.annasedykh.loftcoin.screens.currencies.CurrenciesBottomSheetListener;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.Random;
@@ -30,6 +33,9 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 public class ConverterFragment extends Fragment {
+
+    private static final String SOURCE_CURRENCY_BOTTOM_SHEET_TAG = "source_currency_bottom_sheet";
+    private static final String DESTINATION_CURRENCY_BOTTOM_SHEET_TAG = "destination_currency_bottom_sheet";
 
     @BindView(R.id.converter_toolbar)
     Toolbar toolbar;
@@ -83,6 +89,20 @@ public class ConverterFragment extends Fragment {
         Database database = ((App) getActivity().getApplication()).getDatabase();
         viewModel = new ConverterViewModelImpl(savedInstanceState, database);
 
+        if(savedInstanceState == null){
+            sourceAmount.setText("1");
+        }
+
+        Fragment bottomSheetSource = getFragmentManager().findFragmentByTag(SOURCE_CURRENCY_BOTTOM_SHEET_TAG);
+        if(bottomSheetSource != null){
+            ((CurrenciesBottomSheet)bottomSheetSource).setListener(sourceListener);
+        }
+
+        Fragment bottomSheetDestination = getFragmentManager().findFragmentByTag(DESTINATION_CURRENCY_BOTTOM_SHEET_TAG);
+        if(bottomSheetDestination != null){
+            ((CurrenciesBottomSheet)bottomSheetDestination).setListener(destinationListener);
+        }
+
         initOutputs();
         initInputs();
 
@@ -93,6 +113,12 @@ public class ConverterFragment extends Fragment {
         Disposable disposable = RxTextView.afterTextChangeEvents(sourceAmount)
                 .subscribe(textView ->
                         viewModel.onSourceAmountChange(textView.editable().toString()));
+
+        sourceCurrency.setOnClickListener(v ->
+                viewModel.onSourceCurrencyClick());
+
+        destinationCurrency.setOnClickListener(v ->
+                viewModel.onDestinationCurrencyClick());
 
         disposables.add(disposable);
     }
@@ -111,9 +137,43 @@ public class ConverterFragment extends Fragment {
                 destinationAmount.setText(amount)
         );
 
-        disposables.addAll(disposable1, disposable2, disposable3);
+        Disposable disposable4 = viewModel.selectSourceCurrency().subscribe(o ->
+                showCurrencyBottomSheet(true)
+        );
+
+        Disposable disposable5 = viewModel.selectDestinationCurrency().subscribe(o ->
+                showCurrencyBottomSheet(false)
+        );
+
+        disposables.addAll(disposable1, disposable2, disposable3, disposable4, disposable5);
 
     }
+
+    private void showCurrencyBottomSheet(boolean source) {
+        CurrenciesBottomSheet bottomSheet = new CurrenciesBottomSheet();
+
+        if(source){
+            bottomSheet.show(getFragmentManager(), SOURCE_CURRENCY_BOTTOM_SHEET_TAG);
+            bottomSheet.setListener(sourceListener);
+        }else{
+            bottomSheet.show(getFragmentManager(), DESTINATION_CURRENCY_BOTTOM_SHEET_TAG);
+            bottomSheet.setListener(destinationListener);
+        }
+    }
+
+    private CurrenciesBottomSheetListener sourceListener = new CurrenciesBottomSheetListener() {
+        @Override
+        public void onCurrencySelected(CoinEntity coin) {
+            viewModel.onSourceCurrencySelected(coin);
+        }
+    };
+
+    private CurrenciesBottomSheetListener destinationListener = new CurrenciesBottomSheetListener() {
+        @Override
+        public void onCurrencySelected(CoinEntity coin) {
+            viewModel.onDestinationCurrencySelected(coin);
+        }
+    };
 
     private Random rand = new Random();
 
@@ -129,12 +189,12 @@ public class ConverterFragment extends Fragment {
     private void bindCurrency(String curr, ImageView symbolIcon, TextView symbolText, TextView currencyName) {
         Currency currency = Currency.getCurrency(curr);
 
-        if(currency != null){
+        if (currency != null) {
             symbolIcon.setVisibility(View.VISIBLE);
             symbolText.setVisibility(View.GONE);
 
             symbolIcon.setImageResource(currency.iconRes);
-        }else {
+        } else {
             symbolIcon.setVisibility(View.GONE);
             symbolText.setVisibility(View.VISIBLE);
 
@@ -148,6 +208,11 @@ public class ConverterFragment extends Fragment {
         currencyName.setText(curr);
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        viewModel.saveState(outState);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onDestroy() {

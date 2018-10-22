@@ -14,4 +14,6 @@
     <string name="rate_menu_rub_text">Ruble | RUB</string>
     <string name="rub_symbol">₽</string>
 
+    <string name="currencies_bottom_sheet_currency_name">%s | %s</string>
+
 </resources>
