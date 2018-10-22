@@ -13,5 +13,9 @@
     <string name="main_bottom_navigation_item_converter">Converter</string>
 
     <string name="rate_screen_title">Cryptocurrencies rate</string>
+    <string name="converter_screen_title">Converter</string>
+
+    <string name="rate_menu_item_currency">Currency</string>
+    <string name="rate_menu_title">Select currency</string>
 
 </resources>

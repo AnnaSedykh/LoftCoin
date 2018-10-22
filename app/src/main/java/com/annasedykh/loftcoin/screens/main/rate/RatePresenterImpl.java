@@ -8,6 +8,7 @@ import com.annasedykh.loftcoin.data.api.model.Coin;
 import com.annasedykh.loftcoin.data.db.Database;
 import com.annasedykh.loftcoin.data.db.model.CoinEntity;
 import com.annasedykh.loftcoin.data.db.model.CoinEntityMapper;
+import com.annasedykh.loftcoin.data.model.Fiat;
 import com.annasedykh.loftcoin.data.prefs.Prefs;
 
 import java.util.List;
@@ -68,11 +69,30 @@ class RatePresenterImpl implements RatePresenter {
 
     @Override
     public void onRefresh() {
-        loadRate();
+        loadRate(true);
+    }
+
+    @Override
+    public void onMenuItemCurrencyClick() {
+        if (view != null) {
+            view.showCurrencyDialog();
+        }
+    }
+
+    @Override
+    public void onFiatCurrencySelected(Fiat currency) {
+        prefs.setFiatCurrency(currency);
+        loadRate(false);
     }
 
     //Load data via API
-    private void loadRate() {
+    private void loadRate(boolean fromRefresh) {
+
+        if (!fromRefresh) {
+            if (view != null) {
+                view.showProgress();
+            }
+        }
 
         Disposable disposable = api.ticker("structure", prefs.getFiatCurrency().name())
                 .subscribeOn(Schedulers.io())
@@ -86,13 +106,21 @@ class RatePresenterImpl implements RatePresenter {
                 .subscribe(
                         entities -> {
                             if (view != null) {
-                                view.setRefreshing(false);
+                                if (fromRefresh) {
+                                    view.setRefreshing(false);
+                                } else {
+                                    view.hideProgress();
+                                }
                             }
                         },
                         throwable -> {
                             Log.e(TAG, "loadRate: ", throwable);
                             if (view != null) {
-                                view.setRefreshing(false);
+                                if (fromRefresh) {
+                                    view.setRefreshing(false);
+                                } else {
+                                    view.hideProgress();
+                                }
                             }
                         });
 

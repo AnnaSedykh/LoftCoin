@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.annasedykh.loftcoin.R;
+import com.annasedykh.loftcoin.screens.main.converter.ConverterFragment;
 import com.annasedykh.loftcoin.screens.main.rate.RateFragment;
 
 import butterknife.BindView;
@@ -39,11 +40,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
         presenter.attachView(this);
 
         navigation.setOnNavigationItemSelectedListener(navigationListener);
-        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
+        navigation.setOnNavigationItemReselectedListener(item -> {
 
-            }
         });
 
         if(savedInstanceState == null){
@@ -75,7 +73,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void showConverterFragment() {
-
+        ConverterFragment fragment = new ConverterFragment();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
     }
 
     @Override
