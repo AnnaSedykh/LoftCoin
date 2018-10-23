@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.annasedykh.loftcoin.R;
 import com.annasedykh.loftcoin.screens.main.converter.ConverterFragment;
 import com.annasedykh.loftcoin.screens.main.rate.RateFragment;
+import com.annasedykh.loftcoin.screens.main.wallets.WalletsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,7 +60,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void showWalletsFragment() {
-
+        WalletsFragment fragment = new WalletsFragment();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
     }
 
     @Override
