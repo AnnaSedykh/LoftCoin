@@ -2,6 +2,8 @@ package com.annasedykh.loftcoin.screens.main.wallets;
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,14 +11,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
+import com.annasedykh.loftcoin.App;
 import com.annasedykh.loftcoin.R;
 import com.annasedykh.loftcoin.data.db.model.CoinEntity;
+import com.annasedykh.loftcoin.data.prefs.Prefs;
 import com.annasedykh.loftcoin.screens.currencies.CurrenciesBottomSheet;
 import com.annasedykh.loftcoin.screens.currencies.CurrenciesBottomSheetListener;
+import com.annasedykh.loftcoin.screens.main.wallets.adapters.WalletsPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +45,7 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
 
     private Unbinder unbinder;
 
+    private WalletsPagerAdapter walletsPagerAdapter;
     private WalletsViewModel viewModel;
 
 
@@ -45,7 +53,10 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Prefs prefs = ((App) getActivity().getApplication()).getPrefs();
+
         viewModel = ViewModelProviders.of(this).get(WalletsViewModelImpl.class);
+        walletsPagerAdapter = new WalletsPagerAdapter(prefs);
 
     }
 
@@ -63,15 +74,27 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
         toolbar.setTitle(R.string.wallets_screen_title);
         toolbar.inflateMenu(R.menu.menu_wallets);
 
+        walletsPager.setPageMargin(countWalletsPagerMargin());
+        walletsPager.setOffscreenPageLimit(5);
+        walletsPager.setAdapter(walletsPagerAdapter);
+
         Fragment bottomSheet = getFragmentManager().findFragmentByTag(CurrenciesBottomSheet.TAG);
-        if(bottomSheet != null){
-            ((CurrenciesBottomSheet)bottomSheet).setListener(this);
+        if (bottomSheet != null) {
+            ((CurrenciesBottomSheet) bottomSheet).setListener(this);
         }
 
         viewModel.getWallets();
 
         initOutputs();
         initInputs();
+    }
+
+    private int countWalletsPagerMargin() {
+        int screenWidth = getScreenWidth();
+        int walletItemWidth = getResources().getDimensionPixelOffset(R.dimen.item_wallet_width);
+        int walletItemMargin = getResources().getDimensionPixelOffset(R.dimen.item_wallet_margin);
+        int pageMargin = (screenWidth - walletItemWidth) - walletItemMargin;
+        return -pageMargin;
     }
 
     private void initOutputs() {
@@ -85,9 +108,17 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
     }
 
     private void initInputs() {
-        viewModel.selectCurrency().observe(this, o -> {
-            showCurrencyBottomSheet();
-        });
+
+        viewModel.wallets().observe(this,
+                walletModels -> walletsPagerAdapter.setWallets(walletModels));
+
+        viewModel.walletsVisible().observe(this,
+                isVisible -> walletsPager.setVisibility(isVisible ? View.VISIBLE : View.GONE));
+
+        viewModel.newWalletVisible().observe(this,
+                isVisible -> newWallet.setVisibility(isVisible ? View.VISIBLE : View.GONE));
+
+        viewModel.selectCurrency().observe(this, o -> showCurrencyBottomSheet());
     }
 
     private void showCurrencyBottomSheet() {
@@ -106,5 +137,16 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
     public void onDestroy() {
         unbinder.unbind();
         super.onDestroy();
+    }
+
+    private int getScreenWidth() {
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        return width;
     }
 }

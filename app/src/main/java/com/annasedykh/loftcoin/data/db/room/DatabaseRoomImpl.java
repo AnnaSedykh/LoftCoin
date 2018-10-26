@@ -3,6 +3,7 @@ package com.annasedykh.loftcoin.data.db.room;
 import com.annasedykh.loftcoin.data.db.Database;
 import com.annasedykh.loftcoin.data.db.model.CoinEntity;
 import com.annasedykh.loftcoin.data.db.model.WalletEntity;
+import com.annasedykh.loftcoin.data.db.model.WalletModel;
 
 import java.util.List;
 
@@ -29,6 +30,11 @@ public class DatabaseRoomImpl implements Database {
     @Override
     public Flowable<List<CoinEntity>> getCoins() {
         return database.coinDao().getCoins();
+    }
+
+    @Override
+    public Flowable<List<WalletModel>> getWallets() {
+        return database.walletDao().getWallets();
     }
 
     @Override
