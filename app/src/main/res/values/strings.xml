@@ -14,8 +14,11 @@
 
     <string name="rate_screen_title">Курс криптовалют</string>
     <string name="converter_screen_title">Конвертер</string>
+    <string name="wallets_screen_title">Кошельки</string>
 
     <string name="rate_menu_item_currency">Валюта</string>
     <string name="rate_menu_title">Выбор валюты</string>
+
+    <string name="wallets_menu_new_wallet">Новый кошелек</string>
 
 </resources>
