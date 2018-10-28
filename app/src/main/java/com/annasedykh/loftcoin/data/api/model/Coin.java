@@ -6,7 +6,8 @@ import java.util.Map;
 
 public class Coin {
 
-    public int id;
+    @SerializedName("id")
+    public int coinId;
 
     public String name;
 

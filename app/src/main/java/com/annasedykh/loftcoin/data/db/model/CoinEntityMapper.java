@@ -21,7 +21,7 @@ public class CoinEntityMapper {
     private CoinEntity mapCoin(Coin coin) {
         CoinEntity entity = new CoinEntity();
 
-        entity.id = coin.id;
+        entity.coinId = coin.coinId;
         entity.name = coin.name;
         entity.symbol = coin.symbol;
         entity.slug = coin.slug;

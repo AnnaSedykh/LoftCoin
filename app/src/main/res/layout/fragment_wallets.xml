@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".screens.main.wallets.WalletsFragment">
+    tools:context=".screens.main.wallets.WalletsFragment"
+    tools:ignore="MissingDefaultResource">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/wallets_toolbar"
@@ -43,7 +44,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/transactions_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_transaction"/>
 
 </LinearLayout>

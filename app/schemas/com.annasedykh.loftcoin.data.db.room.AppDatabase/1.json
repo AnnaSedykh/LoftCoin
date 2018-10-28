@@ -2,15 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ff19a8d0ab38604343cb088a4416801b",
+    "identityHash": "aeeded8c87907d7cd5da309688e1748a",
     "entities": [
       {
         "tableName": "Coin",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `symbol` TEXT, `slug` TEXT, `rank` INTEGER NOT NULL, `updated` INTEGER NOT NULL, `usd_price` REAL, `usd_percentChange1h` REAL, `usd_percentChange24h` REAL, `usd_percentChange7d` REAL, `rub_price` REAL, `rub_percentChange1h` REAL, `rub_percentChange24h` REAL, `rub_percentChange7d` REAL, `eur_price` REAL, `eur_percentChange1h` REAL, `eur_percentChange24h` REAL, `eur_percentChange7d` REAL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coinId` INTEGER NOT NULL, `name` TEXT, `symbol` TEXT, `slug` TEXT, `rank` INTEGER NOT NULL, `updated` INTEGER NOT NULL, `usd_price` REAL, `usd_percentChange1h` REAL, `usd_percentChange24h` REAL, `usd_percentChange7d` REAL, `rub_price` REAL, `rub_percentChange1h` REAL, `rub_percentChange24h` REAL, `rub_percentChange7d` REAL, `eur_price` REAL, `eur_percentChange1h` REAL, `eur_percentChange24h` REAL, `eur_percentChange7d` REAL, PRIMARY KEY(`coinId`))",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
+            "fieldPath": "coinId",
+            "columnName": "coinId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -119,7 +119,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "coinId"
           ],
           "autoGenerate": false
         },
@@ -157,11 +157,55 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Transaction",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transactionId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `walletId` TEXT, `currencyId` INTEGER NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "transactionId",
+            "columnName": "transactionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "walletId",
+            "columnName": "walletId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currencyId",
+            "columnName": "currencyId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "transactionId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ff19a8d0ab38604343cb088a4416801b\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"aeeded8c87907d7cd5da309688e1748a\")"
     ]
   }
 }
