@@ -10,7 +10,7 @@ import com.annasedykh.loftcoin.data.model.Fiat;
 public class CoinEntity {
 
     @PrimaryKey
-    public int id;
+    public int coinId;
 
     public String name;
 

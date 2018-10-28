@@ -1,6 +1,8 @@
 package com.annasedykh.loftcoin.data.db;
 
 import com.annasedykh.loftcoin.data.db.model.CoinEntity;
+import com.annasedykh.loftcoin.data.db.model.TransactionEntity;
+import com.annasedykh.loftcoin.data.db.model.TransactionModel;
 import com.annasedykh.loftcoin.data.db.model.WalletEntity;
 import com.annasedykh.loftcoin.data.db.model.WalletModel;
 
@@ -14,9 +16,13 @@ public interface Database {
 
     void saveWallet(WalletEntity wallet);
 
+    void saveTransaction(List<TransactionEntity> transactions);
+
     Flowable<List<CoinEntity>> getCoins();
 
     Flowable<List<WalletModel>> getWallets();
+
+    Flowable<List<TransactionModel>> getTransactions(String walletId);
 
     CoinEntity getCoin(String symbol);
 }

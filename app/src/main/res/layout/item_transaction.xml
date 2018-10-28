@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="24dp"
+    android:paddingTop="14dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="14dp">
+
+    <TextView
+        android:id="@+id/transaction_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="sans-serif-medium"
+        android:textAllCaps="true"
+        android:textColor="@color/secondary_text_color_dark"
+        android:textSize="12sp"
+        tools:text="03 окт 2018" />
+
+    <ImageView
+        android:id="@+id/transaction_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/transaction_crypto_amount"
+        android:layout_alignBottom="@id/transaction_crypto_amount"
+        tools:src="@drawable/ic_transaction_expense" />
+
+    <TextView
+        android:id="@+id/transaction_crypto_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_toStartOf="@id/transaction_date"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:lines="1"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:text="- 1.234560 BTC" />
+
+    <TextView
+        android:id="@+id/transaction_fiat_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/transaction_crypto_amount"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="6dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        tools:text="- $ 8031.40" />
+
+
+</RelativeLayout>

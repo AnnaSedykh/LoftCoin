@@ -61,7 +61,7 @@ class RateAdapter extends RecyclerView.Adapter<RateAdapter.RateViewHolder> {
 
     @Override
     public long getItemId(int position) {
-        return coins.get(position).id;
+        return coins.get(position).coinId;
     }
 
     static class RateViewHolder extends RecyclerView.ViewHolder {
