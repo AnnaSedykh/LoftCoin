@@ -25,7 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/transaction_crypto_amount"
         android:layout_alignBottom="@id/transaction_crypto_amount"
-        tools:src="@drawable/ic_transaction_expense" />
+        tools:src="@drawable/ic_transaction_expense"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/transaction_crypto_amount"

@@ -11,7 +11,8 @@
         android:layout_width="242dp"
         android:layout_height="206dp"
         android:translationX="-120dp"
-        android:background="@drawable/image_start_top_corner"/>
+        android:background="@drawable/image_start_top_corner"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/start_icon_shadow"
@@ -21,7 +22,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/start_icon"
@@ -31,7 +33,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/start_title"
@@ -53,6 +56,7 @@
         android:translationX="180dp"
         android:translationY="220dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="ContentDescription" />
 
 </android.support.constraint.ConstraintLayout>
