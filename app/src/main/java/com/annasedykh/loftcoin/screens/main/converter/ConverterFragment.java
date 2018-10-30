@@ -216,6 +216,7 @@ public class ConverterFragment extends Fragment {
 
     @Override
     public void onDestroy() {
+        viewModel.onDetach();
         unbinder.unbind();
         disposables.dispose();
         super.onDestroy();

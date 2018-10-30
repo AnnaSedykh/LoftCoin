@@ -41,6 +41,8 @@ public class CurrenciesBottomSheet extends BottomSheetDialogFragment implements 
         database = ((App) getActivity().getApplication()).getDatabase();
         adapter = new CurrenciesAdapter();
         adapter.setListener(this);
+
+        database.open();
     }
 
     @Nullable
@@ -67,6 +69,7 @@ public class CurrenciesBottomSheet extends BottomSheetDialogFragment implements 
 
     @Override
     public void onDestroy() {
+        database.close();
         disposables.dispose();
         super.onDestroy();
     }

@@ -6,8 +6,8 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import com.annasedykh.loftcoin.data.db.model.CoinEntity;
-import com.annasedykh.loftcoin.data.db.model.TransactionModel;
-import com.annasedykh.loftcoin.data.db.model.WalletModel;
+import com.annasedykh.loftcoin.data.db.model.TransactionEntity;
+import com.annasedykh.loftcoin.data.db.model.WalletEntity;
 
 import java.util.List;
 
@@ -27,9 +27,9 @@ public abstract class WalletsViewModel extends AndroidViewModel {
 
     public abstract LiveData<Object> selectCurrency();
 
-    public abstract LiveData<List<WalletModel>> wallets();
+    public abstract LiveData<List<WalletEntity>> wallets();
 
-    public abstract LiveData<List<TransactionModel>> transactions();
+    public abstract LiveData<List<TransactionEntity>> transactions();
 
     public abstract LiveData<Boolean> walletsVisible();
 

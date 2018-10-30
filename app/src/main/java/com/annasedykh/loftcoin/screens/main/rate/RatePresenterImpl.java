@@ -27,26 +27,30 @@ class RatePresenterImpl implements RatePresenter {
 
     private Api api;
     private Prefs prefs;
-    private Database database;
+    private Database mainDatabase;
+    private Database workerDatabase;
     private CoinEntityMapper mapper;
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
 
-    RatePresenterImpl(Api api, Prefs prefs, Database database, CoinEntityMapper mapper) {
+    public RatePresenterImpl(Api api, Prefs prefs, Database mainDatabase, Database workerDatabase, CoinEntityMapper mapper) {
         this.api = api;
         this.prefs = prefs;
-        this.database = database;
+        this.mainDatabase = mainDatabase;
+        this.workerDatabase = workerDatabase;
         this.mapper = mapper;
     }
 
     @Override
     public void attachView(RateView view) {
         this.view = view;
+        mainDatabase.open();
     }
 
     @Override
     public void detachView() {
+        mainDatabase.close();
         disposables.dispose();
         this.view = null;
     }
@@ -54,8 +58,7 @@ class RatePresenterImpl implements RatePresenter {
     //Get data from DB
     @Override
     public void getRate() {
-        Disposable disposable = database.getCoins()
-                .observeOn(AndroidSchedulers.mainThread())
+        Disposable disposable = mainDatabase.getCoins()
                 .subscribe(coinEntities -> {
                             if (view != null) {
                                 view.setCoins(coinEntities);
@@ -99,7 +102,11 @@ class RatePresenterImpl implements RatePresenter {
                 .map(rateResponse -> {
                     List<Coin> coins = rateResponse.data;
                     List<CoinEntity> entities = mapper.mapCoins(coins);
-                    database.saveCoins(entities);
+
+                    workerDatabase.open();
+                    workerDatabase.saveCoins(entities);
+                    workerDatabase.close();
+
                     return entities;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
