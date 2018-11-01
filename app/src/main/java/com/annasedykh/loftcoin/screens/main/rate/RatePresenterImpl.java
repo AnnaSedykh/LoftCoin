@@ -10,6 +10,7 @@ import com.annasedykh.loftcoin.data.db.model.CoinEntity;
 import com.annasedykh.loftcoin.data.db.model.CoinEntityMapper;
 import com.annasedykh.loftcoin.data.model.Fiat;
 import com.annasedykh.loftcoin.data.prefs.Prefs;
+import com.annasedykh.loftcoin.job.JobHelper;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-class RatePresenterImpl implements RatePresenter {
+ class RatePresenterImpl implements RatePresenter {
 
     private static final String TAG = "RatePresenterImpl";
 
@@ -30,16 +31,24 @@ class RatePresenterImpl implements RatePresenter {
     private Database mainDatabase;
     private Database workerDatabase;
     private CoinEntityMapper mapper;
+    private JobHelper jobHelper;
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
 
-    public RatePresenterImpl(Api api, Prefs prefs, Database mainDatabase, Database workerDatabase, CoinEntityMapper mapper) {
+    RatePresenterImpl(Api api,
+                             Prefs prefs,
+                             Database mainDatabase,
+                             Database workerDatabase,
+                             CoinEntityMapper mapper,
+                             JobHelper jobHelper) {
+
         this.api = api;
         this.prefs = prefs;
         this.mainDatabase = mainDatabase;
         this.workerDatabase = workerDatabase;
         this.mapper = mapper;
+        this.jobHelper = jobHelper;
     }
 
     @Override
@@ -134,4 +143,8 @@ class RatePresenterImpl implements RatePresenter {
         disposables.add(disposable);
     }
 
+    @Override
+    public void onRateLongClick(String symbol) {
+        jobHelper.startSyncRateJob(symbol);
+    }
 }
