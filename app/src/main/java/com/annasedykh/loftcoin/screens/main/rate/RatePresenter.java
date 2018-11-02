@@ -15,4 +15,6 @@ public interface RatePresenter {
     void onMenuItemCurrencyClick();
 
     void onFiatCurrencySelected(Fiat currency);
+
+    void onRateLongClick(String symbol);
 }

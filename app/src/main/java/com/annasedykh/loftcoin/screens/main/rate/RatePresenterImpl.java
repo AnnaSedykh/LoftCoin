@@ -10,6 +10,7 @@ import com.annasedykh.loftcoin.data.db.model.CoinEntity;
 import com.annasedykh.loftcoin.data.db.model.CoinEntityMapper;
 import com.annasedykh.loftcoin.data.model.Fiat;
 import com.annasedykh.loftcoin.data.prefs.Prefs;
+import com.annasedykh.loftcoin.job.JobHelper;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-class RatePresenterImpl implements RatePresenter {
+ class RatePresenterImpl implements RatePresenter {
 
     private static final String TAG = "RatePresenterImpl";
 
@@ -27,26 +28,38 @@ class RatePresenterImpl implements RatePresenter {
 
     private Api api;
     private Prefs prefs;
-    private Database database;
+    private Database mainDatabase;
+    private Database workerDatabase;
     private CoinEntityMapper mapper;
+    private JobHelper jobHelper;
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
 
-    RatePresenterImpl(Api api, Prefs prefs, Database database, CoinEntityMapper mapper) {
+    RatePresenterImpl(Api api,
+                             Prefs prefs,
+                             Database mainDatabase,
+                             Database workerDatabase,
+                             CoinEntityMapper mapper,
+                             JobHelper jobHelper) {
+
         this.api = api;
         this.prefs = prefs;
-        this.database = database;
+        this.mainDatabase = mainDatabase;
+        this.workerDatabase = workerDatabase;
         this.mapper = mapper;
+        this.jobHelper = jobHelper;
     }
 
     @Override
     public void attachView(RateView view) {
         this.view = view;
+        mainDatabase.open();
     }
 
     @Override
     public void detachView() {
+        mainDatabase.close();
         disposables.dispose();
         this.view = null;
     }
@@ -54,8 +67,7 @@ class RatePresenterImpl implements RatePresenter {
     //Get data from DB
     @Override
     public void getRate() {
-        Disposable disposable = database.getCoins()
-                .observeOn(AndroidSchedulers.mainThread())
+        Disposable disposable = mainDatabase.getCoins()
                 .subscribe(coinEntities -> {
                             if (view != null) {
                                 view.setCoins(coinEntities);
@@ -99,7 +111,11 @@ class RatePresenterImpl implements RatePresenter {
                 .map(rateResponse -> {
                     List<Coin> coins = rateResponse.data;
                     List<CoinEntity> entities = mapper.mapCoins(coins);
-                    database.saveCoins(entities);
+
+                    workerDatabase.open();
+                    workerDatabase.saveCoins(entities);
+                    workerDatabase.close();
+
                     return entities;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -127,4 +143,8 @@ class RatePresenterImpl implements RatePresenter {
         disposables.add(disposable);
     }
 
+    @Override
+    public void onRateLongClick(String symbol) {
+        jobHelper.startSyncRateJob(symbol);
+    }
 }

@@ -1,24 +1,23 @@
 package com.annasedykh.loftcoin.data.db.model;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
-
-@Entity(tableName = "Wallet")
-public class WalletEntity {
+public class WalletEntity extends RealmObject {
 
     @PrimaryKey
-    @NonNull
     public String walletId;
-
-    public int currencyId;
 
     public double amount;
 
-    public WalletEntity(String walletId, int currencyId, double amount) {
+    public CoinEntity coin;
+
+    public WalletEntity() {
+    }
+
+    public WalletEntity(String walletId, double amount, CoinEntity coin) {
         this.walletId = walletId;
-        this.currencyId = currencyId;
         this.amount = amount;
+        this.coin = coin;
     }
 }

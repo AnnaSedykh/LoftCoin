@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.annasedykh.loftcoin.R;
 import com.annasedykh.loftcoin.data.db.model.QuoteEntity;
-import com.annasedykh.loftcoin.data.db.model.TransactionModel;
+import com.annasedykh.loftcoin.data.db.model.TransactionEntity;
 import com.annasedykh.loftcoin.data.model.Fiat;
 import com.annasedykh.loftcoin.data.prefs.Prefs;
 import com.annasedykh.loftcoin.utils.CurrencyFormatter;
@@ -27,14 +27,14 @@ import butterknife.ButterKnife;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder> {
 
-    private List<TransactionModel> transactions = Collections.emptyList();
+    private List<TransactionEntity> transactions = Collections.emptyList();
     private Prefs prefs;
 
     public TransactionsAdapter(Prefs prefs) {
         this.prefs = prefs;
     }
 
-    public void setTransactions(List<TransactionModel> transactions) {
+    public void setTransactions(List<TransactionEntity> transactions) {
         this.transactions = transactions;
         notifyDataSetChanged();
     }
@@ -85,36 +85,36 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             this.prefs = prefs;
         }
 
-        public void bind(TransactionModel model) {
-            bindIcon(model);
-            bindCryptoAmount(model);
-            bindFiatAmount(model);
-            bindDate(model);
+        public void bind(TransactionEntity transaction) {
+            bindIcon(transaction);
+            bindCryptoAmount(transaction);
+            bindFiatAmount(transaction);
+            bindDate(transaction);
         }
 
-        private void bindIcon(TransactionModel model) {
-            if (model.transaction.amount < 0) {
+        private void bindIcon(TransactionEntity transaction) {
+            if (transaction.amount < 0) {
                 icon.setImageResource(R.drawable.ic_transaction_expense);
             } else {
                 icon.setImageResource(R.drawable.ic_transaction_income);
             }
         }
 
-        private void bindCryptoAmount(TransactionModel model) {
-            String sign = model.transaction.amount < 0 ? "- " : "+ ";
-            String value = sign + currencyFormatter.format(Math.abs(model.transaction.amount), true);
-            cryptoAmount.setText(itemView.getContext().getString(R.string.currency_amount, value, model.coin.symbol));
+        private void bindCryptoAmount(TransactionEntity transaction) {
+            String sign = transaction.amount < 0 ? "- " : "+ ";
+            String value = sign + currencyFormatter.format(Math.abs(transaction.amount), true);
+            cryptoAmount.setText(itemView.getContext().getString(R.string.currency_amount, value, transaction.coin.symbol));
         }
 
-        private void bindFiatAmount(TransactionModel model) {
+        private void bindFiatAmount(TransactionEntity transaction) {
 
             Fiat fiat = prefs.getFiatCurrency();
-            QuoteEntity quote = model.coin.getQuote(fiat);
+            QuoteEntity quote = transaction.coin.getQuote(fiat);
 
             int color;
             String sign;
 
-            if (model.transaction.amount < 0) {
+            if (transaction.amount < 0) {
                 color = ContextCompat.getColor(itemView.getContext(), R.color.transaction_expense);
                 sign = "- ";
 
@@ -124,14 +124,14 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             }
 
             fiatAmount.setTextColor(color);
-            double amount = Math.abs(model.transaction.amount) * quote.price;
+            double amount = Math.abs(transaction.amount) * quote.price;
             String value = sign + currencyFormatter.format(amount, false);
             fiatAmount.setText(itemView.getContext().getString(R.string.currency_amount, value, fiat.symbol));
         }
 
-        private void bindDate(TransactionModel model) {
+        private void bindDate(TransactionEntity transaction) {
 
-            Date date = new Date(model.transaction.date);
+            Date date = new Date(transaction.date);
             transactionDate.setText(dateFormatter.format(date));
         }
     }

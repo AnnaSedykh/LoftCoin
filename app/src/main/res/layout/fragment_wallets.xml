@@ -35,7 +35,8 @@
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_wallet_add"/>
+                android:src="@drawable/ic_wallet_add"
+                tools:ignore="ContentDescription" />
 
         </android.support.v7.widget.CardView>
 

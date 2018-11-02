@@ -1,13 +1,11 @@
 package com.annasedykh.loftcoin.data.db.model;
 
-import android.arch.persistence.room.Embedded;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
 import com.annasedykh.loftcoin.data.model.Fiat;
 
-@Entity(tableName = "Coin")
-public class CoinEntity {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class CoinEntity extends RealmObject {
 
     @PrimaryKey
     public int coinId;
@@ -22,13 +20,10 @@ public class CoinEntity {
 
     public long updated;
 
-    @Embedded(prefix = "usd_")
     public QuoteEntity usd;
 
-    @Embedded(prefix = "rub_")
     public QuoteEntity rub;
 
-    @Embedded(prefix = "eur_")
     public QuoteEntity eur;
 
     public QuoteEntity getQuote(Fiat fiat) {

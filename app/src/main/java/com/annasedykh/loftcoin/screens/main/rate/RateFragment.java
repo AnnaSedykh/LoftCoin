@@ -24,6 +24,8 @@ import com.annasedykh.loftcoin.data.db.model.CoinEntity;
 import com.annasedykh.loftcoin.data.db.model.CoinEntityMapper;
 import com.annasedykh.loftcoin.data.model.Fiat;
 import com.annasedykh.loftcoin.data.prefs.Prefs;
+import com.annasedykh.loftcoin.job.JobHelper;
+import com.annasedykh.loftcoin.job.JobHelperImpl;
 
 import java.util.List;
 
@@ -31,7 +33,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class RateFragment extends Fragment implements RateView, Toolbar.OnMenuItemClickListener, CurrencyDialog.CurrencyDialogListener {
+public class RateFragment extends Fragment implements
+        RateView,
+        Toolbar.OnMenuItemClickListener,
+        CurrencyDialog.CurrencyDialogListener,
+        RateAdapter.Listener {
 
     private static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
 
@@ -67,13 +73,16 @@ public class RateFragment extends Fragment implements RateView, Toolbar.OnMenuIt
 
         Api api = ((App) activity.getApplication()).getApi();
         Prefs prefs = ((App) activity.getApplication()).getPrefs();
-        Database database = ((App) activity.getApplication()).getDatabase();
+        Database mainDatabase = ((App) activity.getApplication()).getDatabase();
+        Database workerDatabase = ((App) activity.getApplication()).getDatabase();
         CoinEntityMapper mapper = new CoinEntityMapper();
+        JobHelper jobHelper = new JobHelperImpl(getContext());
 
-        presenter = new RatePresenterImpl(api, prefs, database, mapper);
+        presenter = new RatePresenterImpl(api, prefs, mainDatabase, workerDatabase, mapper, jobHelper);
 
         adapter = new RateAdapter(prefs);
         adapter.setHasStableIds(true);
+        adapter.setListener(this);
     }
 
     @Override
@@ -171,5 +180,11 @@ public class RateFragment extends Fragment implements RateView, Toolbar.OnMenuIt
     @Override
     public void hideProgress() {
         progress.setVisibility(View.GONE);
+    }
+
+
+    @Override
+    public void onRateLongClick(String symbol) {
+        presenter.onRateLongClick(symbol);
     }
 }
